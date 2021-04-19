@@ -21,28 +21,31 @@ export class EquipmentComponent implements OnInit {
     cargoMass: number = 0;
     maximumAllowedMass: number = 2000;
     maxItems: number = 10;
+    nearMaxCap: boolean = false;
 
     constructor() {}
 
     ngOnInit() {}
 
-    addItem(equipment: object) {
-      this.cargoHold.push(equipment);
-      this.cargoMass += equipment.mass;
-      if ((this.maximumAllowedMass - this.cargoMass) <= 200) {
-        return false;
-      } else {
-        return true;
-      }
+    addItem(item) {
+      this.cargoHold.push(item);
+      this.cargoMass += item.mass;
+      return this.maximumAllowedMass - this.cargoMass <= 200;
     }
 
-    addDisabled(equipment) {
-      if ((this.cargoHold.length >= this.maxItems) || ((equipment.mass + this.cargoMass) > this.maximumAllowedMass)) {
+    addDisabled(item) {
+      if ((this.cargoHold.length >= this.maxItems) || ((item.mass + this.cargoMass) > this.maximumAllowedMass)) {
         return true
     }
   }
 
-    classActive(equipment) {
-      return ((this.cargoHold.length < this.maxItems) && ((equipment.mass + this.cargoMass) < this.maximumAllowedMass));
+    classActive(item) {
+      return ((this.cargoHold.length < this.maxItems) && ((item.mass + this.cargoMass) < this.maximumAllowedMass));
+    }
+
+    emptyHold(): void {
+      this.cargoHold = [];
+      this.cargoMass = 0;
+      this.nearMaxCap = false;
     }
 }

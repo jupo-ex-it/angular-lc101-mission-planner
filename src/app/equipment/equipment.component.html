@@ -2,7 +2,7 @@
     <h3>Equipment</h3>
     <ol>
         <li *ngFor="let item of equipmentItems">
-                <button [class.active]="classActive(item)" (click)="addItem(item)" [disabled]="addDisabled(item)">
+                <button [class.active]="item.mass+cargoMass<=maximumAllowedMass && cargoHold.length < maxItems" [disabled]="item.mass+cargoMass>maximumAllowedMass || cargoHold.length >= maxItems" (click)="nearMaxCap = addItem(item)">
                     Add to Cargo Hold
                 </button>
             {{ item.name }}, {{ item.mass }} kg
@@ -18,6 +18,6 @@
         <li *ngFor="let equipment of cargoHold">{{ equipment.name }}</li>
     </ol>
     <p>Mass in Hold: {{ cargoMass }} kg</p>
-    <p>Mass Budget Remaining: {{maximumAllowedMass - cargoMass}} kg</p>
-    <!-- Add the "Empty Hold" button here. -->
+    <p [class.nearMaxMass]="nearMaxCap">Mass Budget Remaining: {{maximumAllowedMass - cargoMass}} kg</p>
+    <button (click)="emptyHold()">Empty Hold</button>
 </div>
