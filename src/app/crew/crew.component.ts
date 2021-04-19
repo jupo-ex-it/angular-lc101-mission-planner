@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CrewComponent implements OnInit {
 
+  selected: boolean = false;
   inCrew: boolean = false;
   crew: object[] = [];
 
@@ -24,6 +25,12 @@ export class CrewComponent implements OnInit {
 
   ngOnInit() { }
 
-  // Code the 'addCrewMember' function here:
+  addCrewMember(candidate) {
+    if (!this.crew.includes(candidate) && this.crew.length < 3) {
+      this.crew.push(candidate);
+    } else if (this.crew.includes(candidate)) {
+      this.crew = this.crew.filter(member => member !== candidate);
+    }
+  }
 
 }
